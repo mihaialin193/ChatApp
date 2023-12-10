@@ -6,6 +6,8 @@ const chatInput = document.querySelector('.chat-input')
 const chatInputForm = document.querySelector('.chat-input-form')
 const clearChat = document.querySelector('.clear-chat-button')
 
+const messages = []
+
 const createChatMessageElement = (message) => 
 (
     `<div class="message ${message.sender === 'Alin' ? 'blue-bg' : 'gray-bg'}">
@@ -48,7 +50,8 @@ const sendMessage = (e) => {
         timestamp,
     }
 
-    localStorage.setItem('messages', JSON.stringify(message))
+    messages.push(message)
+    localStorage.setItem('messages', JSON.stringify(messages))
 
     chatMessages.innerHTML += createChatMessageElement(message)
     chatInputForm.reset()
@@ -56,3 +59,8 @@ const sendMessage = (e) => {
 }
 
 chatInputForm.addEventListener('submit', sendMessage)
+
+clearChat.onclick = () => {
+    localStorage.clear()
+    chatMessages.innerHTML = ''
+}
